@@ -1,11 +1,13 @@
 import java.sql.SQLException;
 import java.util.Scanner;
 public class menu {
+	private static String anotherString;
+
 	static void utama() throws SQLException {
 		Scanner sc = new Scanner (System.in);
-		System.out.println("+---SELAMAT DATANG DI SUPERMARKET SI---+");
+		System.out.println("+--------------------------------------+");
 		System.out.println("| Silahkan pilih menu dibawah berikut  |");
-		System.out.println("| [1] Data Barang                      |");
+		System.out.println("| [1] Lihat Data Barang                |");
 		System.out.println("| [2] Re-Stock Barang                  |");
 		System.out.println("+--------------------------------------+");
 		System.out.print  ("Masukkan Pilihan : ");
@@ -13,40 +15,59 @@ public class menu {
 		if (utama == 1) {
 			menu1();
 		} else if (utama ==2 ) {
-			menu2();
+			db_barang.tbstock();
 		}
 	}
 	static void menu1 () throws SQLException {
 		Scanner sc = new Scanner (System.in);
+		Scanner sc2 = new Scanner (System.in);
 		boolean jalan=true;
-		System.out.println("+-----------------------------------------------+");
-		System.out.println("| SELAMAT DATANG DI DATA BARANG SUPERMARKET SI  |");
-		System.out.println("| 1. Lihat Data Barang                          |");
-		System.out.println("| 2. Tambah Barang Baru                         |");
-		System.out.println("| 3. Edit Barang                                |");
-		System.out.println("| 4. Hapus Barang                               |");
-		System.out.println("| 5. Menu Utama                                 |");
-		System.out.println("| 6. Keluar                                     |");
-		System.out.println("+-----------------------------------------------+");
 		while (jalan==true) {
+			System.out.println("\n DATA BARANG SUPERMARKET SI");
+			System.out.println("+--------------------------+");
+			System.out.println("| 1. Lihat Data Barang     |");
+			System.out.println("| 2. Tambah Barang Baru    |");
+			System.out.println("| 3. Edit Barang           |");
+			System.out.println("| 4. Hapus Barang          |");
+			System.out.println("| 5. Cari Barang           |");
+			System.out.println("| 6. Menu Utama            |");
+			System.out.println("| 7. Keluar                |");
+			System.out.println("+--------------------------+");
 			System.out.print("Masukkan pilihan : ");
 			int menu1 = sc.nextInt();
-			if (menu1==1) {
+			switch (menu1) {
+			case 1:
 				db_barang.tampil();
-			} else if (menu1 == 2) {
+				break;
+			case 2:
 				db_barang.tambah();	
-			} else if (menu1 == 3) {
+				break;
+			case 3:
 				db_barang.edit();
-			} else if (menu1 == 4) {
-				db_barang.hapus();	
-			} else if (menu1 == 5) {
+				break;
+			case 4:
+				db_barang.hapus();
+				break;
+			case 5:
+				cariBarang.cari();
+				break;
+			case 6:
 				utama();
-			} else if (menu1 == 6) {
+				break;
+			case 7:
 				System.out.println("----PROGRAM SELESAI----");
 				System.exit(0);
-			} else {
-				System.out.print("!!! Pilihan Tidak Tersedia !!!");
-				System.out.println(" Masukkan pilihan [1-6]");
+				break;
+			default :
+			}
+			System.out.print("Apakah anda ingin melanjutkan? [y/n]  ");
+			String next = sc2.nextLine();
+			String lanjut = "y";
+			jalan = next.equalsIgnoreCase(lanjut);
+			if (jalan==false) {
+				System.out.println("=======================================");
+				System.out.println("            PROGRAM KELUAR             ");
+				System.out.println("=======================================");
 			}
 		}
 	}

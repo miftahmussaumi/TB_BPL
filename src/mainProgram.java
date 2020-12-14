@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 public class mainProgram {
 	//parameter JDBC untuk koneksi ke DB
 	static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-	static final String DB_URL = "jdbc:mysql://localhost/dbt10";
+	static final String DB_URL = "jdbc:mysql://localhost/tb_bpl";
 	static final String USERNAME = "root";
 	static final String PASSWORD = "";
 	//menyiapkan objek
@@ -21,12 +21,11 @@ public class mainProgram {
 		try {
 	        conn=(Connection) DriverManager.getConnection(DB_URL,USERNAME,PASSWORD);
 	        if (conn!=null){
-	            System.out.println("Koneksi Berhasil");
+	            System.out.println("'''SELAMAT DATANG DI SUPERMARKET SI'''");
 	        }
 	        else {
 	            System.out.println("Koneksi Gagal");
 	        }
-	        
 	        menu.utama();
 	    }
 	    catch (Exception e){
