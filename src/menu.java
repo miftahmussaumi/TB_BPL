@@ -2,13 +2,15 @@ import java.sql.SQLException;
 import java.util.Scanner;
 public class menu {
 	private static String anotherString;
-
+	static User user = new User();
 	static void utama() throws SQLException {
 		Scanner sc = new Scanner (System.in);
 		System.out.println("+--------------------------------------+");
 		System.out.println("| Silahkan pilih menu dibawah berikut  |");
 		System.out.println("| [1] Lihat Data Barang                |");
 		System.out.println("| [2] Re-Stock Barang                  |");
+		System.out.println("| [3] Ke Menu Utama                    |");
+		System.out.println("| [4] Logout                           |");
 		System.out.println("+--------------------------------------+");
 		System.out.print  ("Masukkan Pilihan : ");
 		int utama = sc.nextInt();
@@ -16,6 +18,10 @@ public class menu {
 			menu1();
 		} else if (utama ==2 ) {
 			db_barang.tbstock();
+		} else if (utama ==3) {
+			user.user_menu();
+		} else if (utama==4) {
+			user.logout();
 		}
 	}
 	static void menu1 () throws SQLException {
@@ -30,8 +36,8 @@ public class menu {
 			System.out.println("| 3. Edit Barang           |");
 			System.out.println("| 4. Hapus Barang          |");
 			System.out.println("| 5. Cari Barang           |");
-			System.out.println("| 6. Menu Utama            |");
-			System.out.println("| 7. Keluar                |");
+			System.out.println("| 6. Menu Utama Barang     |");
+			System.out.println("| 7. Logout                |");
 			System.out.println("+--------------------------+");
 			System.out.print("Masukkan pilihan : ");
 			int menu1 = sc.nextInt();
@@ -55,8 +61,7 @@ public class menu {
 				utama();
 				break;
 			case 7:
-				System.out.println("----PROGRAM SELESAI----");
-				System.exit(0);
+				user.logout();
 				break;
 			default :
 			}
@@ -65,9 +70,7 @@ public class menu {
 			String lanjut = "y";
 			jalan = next.equalsIgnoreCase(lanjut);
 			if (jalan==false) {
-				System.out.println("=======================================");
-				System.out.println("            PROGRAM KELUAR             ");
-				System.out.println("=======================================");
+				user.user_menu();
 			}
 		}
 	}
