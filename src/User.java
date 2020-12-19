@@ -9,7 +9,7 @@ import java.sql.*;
 
 import java.util.Date;
 import java.util.InputMismatchException;
-
+import java.util.Random;
 import java.util.ArrayList;
 
 public class User extends connection implements KelolaUser{
@@ -37,83 +37,66 @@ public class User extends connection implements KelolaUser{
     	
     	Class.forName("com.mysql.cj.jdbc.Driver");
 		conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-		System.out.println("+---------------+");
-    	System.out.println("|     LOGIN     |");
-    	System.out.println("+---------------+");
-    	System.out.print("Username : ");
-		this.username = input.next();
-		
-		System.out.print("Password : ");
-		this.password = input.next();
-		System.out.println("+---------------+");
-
-		this.lastlogin = String.format("%tF", date);
-
-		this.query = "SELECT*FROM user WHERE username='"+username+"'"
-    				+ " AND password='"+password+"'";
-
-    	try {	
-			stmt = conn.createStatement(); 
-			ResultSet result = stmt.executeQuery(query);
+		int login = 0 ; 
+		do {
+			System.out.println("+---------------+");
+	    	System.out.println("|     LOGIN     |");
+	    	System.out.println("+---------------+");
+	    	System.out.print("Username : ");
+			this.username = input.next();
 			
-    		if(result.next()) {
+			System.out.print("Password : ");
+			this.password = input.next();
+			System.out.println("+---------------+");
 
+			this.lastlogin = String.format("%tF", date);
+
+			this.query = "SELECT*FROM user WHERE username='"+username+"'"
+	    				+ " AND password='"+password+"'";
+			
+			stmt=conn.createStatement();
+			ResultSet result = stmt.executeQuery(query);
+			if (result.next()) {
 				String sql = "UPDATE user SET login_terakhir='"+lastlogin+"' WHERE username='"+username+"'";
-				
-				try {
-					stmt = conn.createStatement();
-					stmt.executeUpdate(sql);
-				} catch (Exception e) {
-					System.out.println("Terjadi Kesalahan");
-				}
-				
+				stmt.executeUpdate(sql);
 				System.out.println("Login Berhasil");
 				uname=username;
 				pass=password;
 				user_menu();
-				
-    		} 
-		else {
-				System.out.println("Username Dan/Atau Password Yang Anda Masukkan Salah");
-				
-				String sql = "UPDATE user SET login_terakhir='"+lastlogin+"' WHERE username='"+username+"'";
-				
-				System.out.println("+---------------+");
-		    	System.out.println("|     LOGIN     |");
-		    	System.out.println("+---------------+");
-		    	
-		    		System.out.print("Masukkan Username : ");
-				this.username = input.next();
-				
-				System.out.print("Masukkan Password : ");
-				this.password = input.next();
-
-				this.lastlogin = String.format("%tF", date);
-
-				this.query = "SELECT*FROM user WHERE username='"+username+"'"
-		    				+ " AND password='"+password+"'";
-				
-				try {
-					stmt = conn.createStatement();
-					stmt.executeUpdate(sql);
-				} catch (Exception e) {
-					System.out.println("Terjadi Kesalahan");
+			} else {
+				System.out.println("Username dan Password salah");
+				login++;
+				if (login==3) {
+					reset();
 				}
-				
-				System.out.println("Login Berhasil");
-				uname=username;
-				pass=password;
-				user_menu();
-				
-    		}
-    		
-		} catch (SQLException e) {
-			System.out.println("Terjadi Kesalahan");
-		}
+			}
+		} while (login>=0 && login<=2);
     	
 	}
     
-    
+    public void reset () throws Exception {
+		String resetpass = "abcdefghijklmnopqrstuvwxyz";
+		String randompass = "";
+		int length = 5;
+		Random random = new Random();
+		char [] pass = new char [length];
+		
+		for (int a=0 ; a<length ; a++  ) {
+			pass[a] = resetpass.charAt(random.nextInt(resetpass.length()));
+		}
+		
+		for (int a=0 ; a<pass.length ; a++) {
+			randompass += pass[a];
+		}
+		System.out.println("--------------------------------------");
+		System.out.println("Password Baru Anda : "+ randompass);
+		System.out.println("--------------------------------------");
+		System.out.println("SILAHAKN LOGIN KEMBALI DENGAN PASSWORD BARU");
+		String sql = "UPDATE user SET password='"+randompass+"' WHERE username='"+username+"'";
+		stmt.executeUpdate(sql);
+		login();
+	}
+	
     // Register data
  	@Override
  	public void Register() throws Exception{
