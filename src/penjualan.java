@@ -1,8 +1,7 @@
 import java.util.Scanner;
 public class penjualan {
-	
-	int tanggal;
-	String noresi, username;
+	int jml;
+	String noresi,sku,nama_brg;
 	Scanner sc= new Scanner(System.in);
 	
 	public penjualan () {
@@ -14,35 +13,33 @@ public class penjualan {
     }
 
 	public String noresi() {
-		System.out.print("noresi penjualan\t: ");
+		System.out.print("Noresi penjualan\t: ");
 		noresi = sc.nextLine();
 		return noresi;
 	}
 	
-	public void settanggal(Integer tanggal) {
-	       this.tanggal = tanggal;
-	    }
-
-		public Integer tanggal() {
-			System.out.print("Tanggal penjualan\t: ");
-			tanggal = sc.nextInt();
-			return tanggal;
-		}
-
-	public void setusername(String username) {
-		    this.username = username;
-		}
+	public void setsku(String sku) {
+        this.sku = sku;
+    }
 	
-	public String username() {
-		System.out.print("Username penjualan\t: ");
-		username = sc.nextLine();
-		return username;
+	public void setnama_brg(String nama_brg) {
+        this.nama_brg = nama_brg;
+    }
+	
+    public void setjumlah(int jml) {
+        this.jml = jml;
+    }
+
+	public int jumlah() {
+		System.out.print("Jumlah\t\t: ");
+		jml = sc.nextInt();
+		return jml;
 	}
 	
-	public penjualan (Integer id , Integer hj, String sku, String noresi, Integer jumlah) {
-        this.setnoresi(noresi);
-        this.settanggal(tanggal);
-        this.setusername(username);
-     
+	public penjualan (String tgl, String noresi, String sku, String nama_brg,Integer jml) {
+		this.setnoresi(noresi);
+		this.setsku(sku);
+        this.setnama_brg(nama_brg);
+        this.setjumlah(jml);
     }
 }

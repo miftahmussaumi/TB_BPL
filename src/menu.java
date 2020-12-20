@@ -113,10 +113,10 @@ public class menu {
 			int menu2 = sc3.nextInt();
 			switch (menu2) {
 			case 1:
-				db_transaksi.tambah1();
+				db_transaksi.penjualan();
 				break;
 			case 2:
-				db_transaksi.tampil1();
+				db_transaksi.penjualan();
 				break;
 			case 3:
 				utama();

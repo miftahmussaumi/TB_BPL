@@ -25,7 +25,7 @@ public class User extends connection implements DataUser{
 	String uname;
 	String pass;
 
-	String username;
+	static String username;
 	String password;
 	String email;
 	String lastlogin;
@@ -162,7 +162,7 @@ public class User extends connection implements DataUser{
 
  	}
 
-  	public void user_menu(){
+  	public void user_menu() throws SQLException{
   		boolean tampil=true;
 		while (tampil==true) {
   		Scanner scan = new Scanner(System.in);
@@ -210,6 +210,7 @@ public class User extends connection implements DataUser{
   					break;
 
   				case 4:
+  					db_transaksi.laporan_penjualan();
   					break;
   					
   				case 5: 
@@ -231,7 +232,7 @@ public class User extends connection implements DataUser{
 
 
   	// Pilihan setting
-  	public void user_setting() {
+  	public void user_setting() throws SQLException {
 
   		Scanner scan = new Scanner(System.in);
   		System.out.println();	
@@ -340,7 +341,7 @@ public class User extends connection implements DataUser{
 
  	// Mengedit email dan password akun
  	@Override
- 	public void EditUser(){
+ 	public void EditUser() throws SQLException{
 
   		System.out.println("+========================================+");
   		System.out.println("|         '' MENU EDIT USER ''           |");
@@ -527,7 +528,7 @@ public class User extends connection implements DataUser{
 
  	// Cari data akun atau data transaksi
  	@Override
- 	public void CariUser(){
+ 	public void CariUser() throws SQLException{
 	  		System.out.println("+====================================+");
 	  		System.out.println("|     '' Pencarian Data User ''      |");
 	  		System.out.println("|____________________________________|");
@@ -557,7 +558,7 @@ public class User extends connection implements DataUser{
 
  	// Lihat data akun atau data transaksi??
  	@Override
- 	public void LihatUser(){
+ 	public void LihatUser() throws SQLException{
   		System.out.println("+====================================+");
   		System.out.println("|       '' Lihat Data User ''        |");
   		System.out.println("|____________________________________|");

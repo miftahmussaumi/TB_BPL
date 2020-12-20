@@ -2,80 +2,111 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
-
-
+import java.util.Date;
+import java.text.SimpleDateFormat;
 public class db_transaksi extends connection {
 	
-	public static void tampil1() throws SQLException {
+	public static void laporan_penjualan () throws SQLException {
 		conn();
+		boolean lap = true;
+		Scanner in = new Scanner (System.in);
+		System.out.println("\n+================================================+");
+		System.out.println("   LAPORAN PENJUALAN SUPERMARKET SI");
+		System.out.println("+=================================================+");
+		System.out.print  ("Masukkan Tanggal [dd-mm-yyyy] : ");
+		String tgl = in.nextLine();
 		stmt = conn.createStatement();
-		String sql = " SELECT * FROM transaksi_detail ";
+		String sql = "SELECT transaksi.tanggal,transaksi_detail.noresi,"
+				+ "transaksi_detail.sku,barang.nama_brg,"
+				+ "transaksi_detail.jumlah FROM barang "
+				+ "INNER JOIN transaksi_detail "
+				+ "ON barang.sku=transaksi_detail.sku "
+				+ "JOIN transaksi "
+				+ "ON transaksi_detail.noresi=transaksi.noresi WHERE tanggal ='"+tgl+"'";
 		result = stmt.executeQuery(sql);
 		
-		System.out.println("\n\t\t\tDATA TRANSAKSI DETAIL SUPERMARKET SI");
-		System.out.println("+====================================================================+");
-		String format1 = "|%-3s| %-15s| %-15s| %-13s |%-13s |\n";
-		System.out.printf(format1, "ID", " SKU", "No Resi", "Jumlah", " Harga");
-		System.out.println("+====================================================================+");
 		while (result.next()) {
-			
-			Integer ID = result.getInt("id");
-			String SKU = result.getString("sku");
 			String noresi = result.getString("noresi");
+			String sku = result.getString("sku");
+			String nama_brg = result.getString("nama_brg");
 			Integer jumlah = result.getInt("jumlah");
-			Integer harga = result.getInt("harga");
-				
-			String format = "|%-3s| %-15s| %-15s| Rp%-11s | Rp%-11s| \n";
-			System.out.printf(format, ID, SKU, noresi, jumlah, harga );
-			System.out.println("+--------------------------------------------------------------------+");
-		}
+			
+			System.out.println("+----------------------------------------------------------+");
+			System.out.println("No.Resi        : "+noresi);
+			System.out.println("SKU Barang     : "+sku);
+			System.out.println("Nama Barang    : "+nama_brg);
+			System.out.println("Jumlah Terjual : "+jumlah);
+			System.out.println("+----------------------------------------------------------+");
+		} 
 		System.out.println();
 	}
 	
-	public static void tambah1() throws SQLException {
+	public static void penjualan() throws SQLException {
 		conn();
-		stmt = conn.createStatement();
-		String sql = " SELECT * FROM transaksi";
-		result = stmt.executeQuery(sql);
 		penjualan penj = new penjualan();
-		System.out.println("<< TAMBAH DATA TRANSAKSI BARANG >>");
-		System.out.println("\n____________________________");
+		Scanner sc = new Scanner (System.in);
+		System.out.println("\n+==========================================================+");
+		System.out.println("\t\tTRANSAKSI PENJUALAN SUPERMARKET SI");
+		System.out.println("+==========================================================+");
 		penj.noresi();
-		penj.tanggal();
-		penj.username();
 		
+		Date tgl = new Date();
+		SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+		System.out.println("Tanggal Transaksi\t : "+format.format(tgl));
+		String tanggal = String.valueOf(format.format(tgl));
 		
+		System.out.println("---Transaksi Penjualan---");
+		System.out.print("SKU Barang\t : ");
+		String sku_brg = sc.nextLine();
 		
-		String sql1 = "INSERT INTO transaksi VALUES " + 
-		"('"+penj.noresi+"','"+penj.tanggal+"','"+penj.username+"' )";
+		String sql = "SELECT * FROM barang WHERE sku = '"+sku_brg+"'";
+		stmt=conn.createStatement();
+		result=stmt.executeQuery(sql);
 		
-		try {
-			stmt= conn.createStatement();
-			stmt.execute(sql1);
-			stmt.close();
-			System.out.println("____________________________");
-			System.out.println("[Data BERHASIL di SIMPAN !]\n");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		System.out.println("\n\t\t\tDATA TRANSAKSI SUPERMARKET SI");
-		System.out.println("+=================================================+");
-		String format2 = "| %-15s| %-15s| %-13s |\n";
-		System.out.printf(format2, "noresi", " tanggal", "username");
-		System.out.println("+=================================================+");
+		int sisabarang = 0;
+		int total=0;
+		int jual=0;
 		while (result.next()) {
+			String sku = result.getString("sku");
+			String nama_brg = result.getString("nama_brg");
+			Integer stok_brg = result.getInt("stok");
+			Integer harga_jual = result.getInt("h_jual");
+			System.out.println("Nama Barang\t : "+nama_brg);
 			
-			Integer noresi = result.getInt("noresi");
-			String tanggal = result.getString("tanggal");
-			String username = result.getString("username");
+			if (stok_brg>0) {
+				System.out.println("Harga Barang : Rp "+harga_jual);
+				penj.jumlah();
+				sisabarang = Integer.valueOf(stok_brg)-Integer.valueOf(penj.jml);
+				total = Integer.valueOf(harga_jual)*Integer.valueOf(penj.jml);
+				jual+=Integer.valueOf(penj.jml);
+				System.out.println("Total Belanja : Rp "+total);
+				String sql2="INSERT INTO transaksi_detail (sku,noresi,jumlah,harga) VALUES ('"+sku_brg+"','"+penj.noresi+"','"+penj.jml+"','"+total+"')";
+				String sql3="INSERT INTO transaksi VALUES ('"+penj.noresi+"','"+tanggal+"','"+User.username+"')";
+				String sql4="UPDATE barang SET stok='"+stok_brg+"'";
+			
+				try {
+					stmt.execute(sql2);
+					stmt.execute(sql3);
+					stmt.execute(sql4);
+					stmt.close();
+					System.out.println("\n        TRANSAKSI BERHASIL      ");
+					System.out.println("+---------------------------------------+");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				
-			String format = "| %-15s| %-15s| %-13s | \n";
-			System.out.printf(format, noresi, tanggal, username );
-			System.out.println("+-------------------------------------------------+");
+			} else {
+				System.out.println("__________________________________________________________________");
+				System.out.println("!!-----------------Stock Barang telah habis---------------------!!");
+				System.out.println("Silahkan melakukan re-stock barang ["+nama_brg+"] dahulu");
+				System.out.println("------------------------------------------------------------------");
+				menu.menu1();
+			}
 		}
-		System.out.println();
+		
 	}
+	
+	
 	
 	
 	public static void tbstock() throws SQLException{
