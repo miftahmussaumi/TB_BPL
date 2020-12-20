@@ -207,12 +207,12 @@ public class User extends connection implements DataUser{
 
   				case 3:
   					System.out.print("\n");
-  					MainBarang(); 
+  					db_transaksi.penjualan(); 
 	
   					break;
 
   				case 4:
-  					db_transaksi.laporan_penjualan();
+  					db_transaksi.penjualan();
   					break;
   					
   				case 5: 

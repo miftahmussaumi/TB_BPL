@@ -1,7 +1,7 @@
 import java.util.Scanner;
 public class penjualan {
 	int jml;
-	String noresi,sku,nama_brg;
+	String noresi,sku;
 	Scanner sc= new Scanner(System.in);
 	
 	public penjualan () {
@@ -18,14 +18,6 @@ public class penjualan {
 		return noresi;
 	}
 	
-	public void setsku(String sku) {
-        this.sku = sku;
-    }
-	
-	public void setnama_brg(String nama_brg) {
-        this.nama_brg = nama_brg;
-    }
-	
     public void setjumlah(int jml) {
         this.jml = jml;
     }
@@ -36,10 +28,7 @@ public class penjualan {
 		return jml;
 	}
 	
-	public penjualan (String tgl, String noresi, String sku, String nama_brg,Integer jml) {
-		this.setnoresi(noresi);
-		this.setsku(sku);
-        this.setnama_brg(nama_brg);
-        this.setjumlah(jml);
+	public penjualan (Integer id , String sku, String noresi, Integer jumlah,Integer harga) {
+
     }
 }
