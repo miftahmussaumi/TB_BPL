@@ -1,7 +1,7 @@
 import java.util.Scanner;
 public class Barang {
-	int hb,hj,stok;
-	String sku,nama,depart;
+	int hb,hj,stok,id_kate;
+	String sku,nama,kategori;
 	Scanner sc= new Scanner(System.in);
 	
 	public Barang () {
@@ -29,15 +29,51 @@ public class Barang {
 		return nama;
 	}
 	
-	public void setdepart(String depart) {
-        this.depart = depart;
+	public void setkodekat (int id_kate) {
+        this.id_kate = id_kate;
     }
 	
-	public String depart() {
-		Scanner sc2= new Scanner(System.in);
-		System.out.print("Departement\t: ");
-		depart = sc2.nextLine();
-		return depart;
+	//method dari implementasi class buku
+	public int kode_kate() {
+		boolean next = true;
+		System.out.println("+---Id Kategori Buku---+");
+		System.out.println("| 1. Food              |");
+		System.out.println("| 2. Non Food          |");
+		System.out.println("| 3. House Hold        |");
+		System.out.println("+----------------------+");
+		Scanner a2 = new Scanner(System.in);
+		while (next == true) {
+			System.out.print("Kode Kategori\t: ");
+			id_kate = a2.nextInt();
+			if (id_kate == 1){
+				kategori="Food";
+				next=false;
+			} else if (id_kate == 2) {
+				kategori="Non Food";
+				next=false;
+			} else if (id_kate == 3) {
+				kategori="House Hold";
+				next=false;
+			} else {
+				System.out.println("-----------------------------------");
+				System.out.println("\t\tERROR !!");
+				System.out.println("--Id kategori tidak tersedia--");
+				System.out.println("--Masukkan kembali id yang benar!--");
+				System.out.println("-----------------------------------");
+			}
+		}
+		return id_kate;
+	}
+	
+	public void setkat (String kategori) {
+        this.kategori = kategori;
+    }
+	
+	//method dari implementasi class buku
+	public String kategori() {
+		System.out.print("Kategori\t: "+kategori);
+		System.out.println();
+		return kategori;
 	}
 	
 	public void sethb(Integer hb) {
@@ -70,10 +106,9 @@ public class Barang {
 		return stok;
 	}
 	
-	public Barang (String sku, String nama, String depart, Integer hb , Integer hj, Integer stok) {
+	public Barang (String sku, String nama, Integer hb , Integer hj, Integer stok) {
         this.setsku(sku);
         this.setnama(nama);
-        this.setdepart(depart);
         this.sethj(hj);
         this.sethb(hb);
         this.setstok(stok);

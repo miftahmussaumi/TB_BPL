@@ -12,7 +12,7 @@ import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.ArrayList;
 
-public class User extends connection implements KelolaUser{
+public class User extends connection implements DataUser{
 	
 	static Connection conn;
 	static Statement stmt;
@@ -598,7 +598,7 @@ public class User extends connection implements KelolaUser{
 	        else {
 	            System.out.println("Koneksi Gagal");
 	        }
-	        menu.utama();
+	        menu.menu1();
 	    }
 	    catch (Exception e){
 	        e.printStackTrace();

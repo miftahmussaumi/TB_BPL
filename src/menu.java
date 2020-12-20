@@ -5,42 +5,58 @@ public class menu {
 	static User user = new User();
 	static void utama() throws SQLException {
 		Scanner sc = new Scanner (System.in);
-		System.out.println("+--------------------------------------+");
-		System.out.println("| Silahkan pilih menu dibawah berikut  |");
-		System.out.println("| [1] Lihat Data Barang                |");
-		System.out.println("| [2] Re-Stock Barang                  |");
-		System.out.println("| [3] Transaksi Penjualan              |");
-		System.out.println("| [4] Ke Menu Utama                    |");
-		System.out.println("| [5] Logout                           |");
-		System.out.println("+--------------------------------------+");
-		System.out.print  ("Masukkan Pilihan : ");
-		int utama = sc.nextInt();
-		if (utama == 1) {
-			menu1();
-		} else if (utama ==2 ) {
-			db_barang.tbstock();
-		} else if (utama ==3 ) {
-			menu2();
-		} else if (utama ==4) {
-			user.user_menu();
-		} else if (utama==5) {
-			user.logout();
+		boolean jalan=true;
+		while (jalan=true) {
+			System.out.println("+--------------------------------------+");
+			System.out.println("| Silahkan pilih menu dibawah berikut  |");
+			System.out.println("| [1] Kelola Data Barang               |");
+			System.out.println("| [2] Transaksi Penjualan              |");
+			System.out.println("| [3] Ke Menu Utama                    |");
+			System.out.println("| [4] Logout                           |");
+			System.out.println("+--------------------------------------+");
+			System.out.print  ("Masukkan Pilihan : ");
+			int utama = sc.nextInt();
+			switch (utama) {
+			case 1:
+				menu1();
+				break;
+			case 2:
+				menu2();	
+				break;
+			case 3:
+				user.user_menu();
+				break;
+			case 4:
+				user.logout();
+				break;
+			default :
+			}
+			System.out.print("Apakah anda ingin melanjutkan? [y/n]  ");
+			Scanner sc2 = new Scanner (System.in);
+			String next = sc2.nextLine();
+			String lanjut = "y";
+			jalan = next.equalsIgnoreCase(lanjut);
+			if (jalan==false) {
+				user.user_menu();
+			}
 		}
+		
 	}
 	static void menu1 () throws SQLException {
 		Scanner sc = new Scanner (System.in);
 		Scanner sc2 = new Scanner (System.in);
 		boolean jalan=true;
 		while (jalan==true) {
-			System.out.println("\n DATA BARANG SUPERMARKET SI");
+			System.out.println("\nDATA BARANG SUPERMARKET SI");
 			System.out.println("+--------------------------+");
 			System.out.println("| 1. Lihat Data Barang     |");
 			System.out.println("| 2. Tambah Barang Baru    |");
 			System.out.println("| 3. Edit Barang           |");
 			System.out.println("| 4. Hapus Barang          |");
 			System.out.println("| 5. Cari Barang           |");
-			System.out.println("| 6. Menu Utama Barang     |");
-			System.out.println("| 7. Logout                |");
+			System.out.println("| 6. Re-Stock Barang       |");
+			System.out.println("| 7. Menu Utama            |");
+			System.out.println("| 8. Logout                |");
 			System.out.println("+--------------------------+");
 			System.out.print("Masukkan pilihan : ");
 			int menu1 = sc.nextInt();
@@ -58,12 +74,15 @@ public class menu {
 				db_barang.hapus();
 				break;
 			case 5:
-				cariBarang.cari();
+				db_barang.cari();
 				break;
 			case 6:
-				utama();
+				db_barang.tbstock();
 				break;
 			case 7:
+				user.user_menu();
+				break;
+			case 8:
 				user.logout();
 				break;
 			default :

@@ -13,25 +13,27 @@ public class db_barang extends connection {
 	public static void tampil() throws SQLException {
 		conn();
 		stmt = conn.createStatement();
-		String sql = " SELECT * FROM barang ";
+		String sql = " SELECT *,kategori FROM barang INNER JOIN kategori ON barang.id_kate = kategori.id_kate";
 		result = stmt.executeQuery(sql);
 		
-		System.out.println("\n\t\t\tDATA BARANG SUPERMARKET SI");
-		System.out.println("+===========================================================================+");
-		String format1 = "|%-3s| %-15s| %-15s| %-13s |%-13s | %-5s|\n";
-		System.out.printf(format1, "SKU", " Nama Barang", "Departement", "Harga Beli", "  Harga Jual", "Stok" );
-		System.out.println("+===========================================================================+");
+		System.out.println("\n+==========================================================+");
+		System.out.println("\t\tDATA BARANG SUPERMARKET SI");
+		System.out.println("+==========================================================+");
 		while (result.next()) {
-			Integer SKU = result.getInt("sku");
+			String SKU = result.getString("sku");
 			String nama_brg = result.getString("nama_brg");
-			String depart = result.getString("depart");
+			String kate = result.getString("kategori");
 			Integer h_beli = result.getInt("h_beli");
 			Integer h_jual = result.getInt("h_jual");
 			Integer stok = result.getInt("stok");
 				
-			String format = "|%-3s| %-15s| %-15s| Rp%-11s | Rp%-11s| %-5s| \n";
-			System.out.printf(format, SKU, nama_brg, depart, h_beli, h_jual , stok);
-			System.out.println("+---------------------------------------------------------------------------+");
+			System.out.println("SKU Barang  : "+SKU);
+			System.out.println("Nama Barang : "+nama_brg);
+			System.out.println("Kategori    : "+kate);
+			System.out.println("Harga Beli  : Rp "+h_beli);
+			System.out.println("Harga Jual  : Rp "+h_jual);
+			System.out.println("Jumlah Stok : "+stok);
+			System.out.println("+----------------------------------------------------------+");
 		}
 		System.out.println();
 	}
@@ -39,24 +41,26 @@ public class db_barang extends connection {
 	public static void tambah() throws SQLException {
 		conn();
 		Barang brg = new Barang();
-		System.out.println("<< TAMBAH DATA BARANG >>");
-		System.out.println("\n____________________________");
+		System.out.println("\n+==========================================================+");
+		System.out.println("\t\tDTAMBAH ATA BARANG SUPERMARKET SI");
+		System.out.println("+==========================================================+");
 		brg.sku();
 		brg.nama();
-		brg.depart();
+		brg.kode_kate();
+		brg.kategori();
 		brg.hb();
 		brg.hj();
 		brg.stok();
 		
 		String sql = "INSERT INTO barang VALUES " + 
-		"('"+brg.sku+"','"+brg.nama+"','"+brg.depart+"','"+brg.hb+"','"+brg.hj+"','"+brg.stok+"')";
+		"('"+brg.sku+"','"+brg.nama+"','"+brg.id_kate+"','"+brg.hb+"','"+brg.hj+"','"+brg.stok+"')";
 		
 		try {
 			stmt= conn.createStatement();
 			stmt.execute(sql);
 			stmt.close();
-			System.out.println("____________________________");
-			System.out.println("[Data BERHASIL di SIMPAN !]\n");
+			System.out.println("\n       BARANG BERHASIL DITAMBAHKAN       ");
+			System.out.println("+---------------------------------------+");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -66,19 +70,20 @@ public class db_barang extends connection {
 		conn();
 		Barang brg = new Barang();
 		Scanner sc= new Scanner (System.in);
-		System.out.println("\nKet : Input SKU barang yang ingin diedit");
-		System.out.println("<< EDIT DATA BARANG >>");
-		System.out.println("__________________________");
+		System.out.println("\n+==========================================================+");
+		System.out.println("\t\tEDIT DATA BARANG SUPERMARKET SI");
+		System.out.println("+==========================================================+");
 		System.out.print  ("SKU Barang\t: ");
-		int id = sc.nextInt();
+		String id = sc.nextLine();
 		brg.nama();
-		brg.depart();
+		brg.kode_kate();
+		brg.kategori();
 		brg.hb();
 		brg.hj();
 		brg.stok();
 		
 		String sql = "UPDATE barang SET " + "nama_brg = '"+brg.nama+"', "
-										+ "depart='"+brg.depart+"',"
+										+ "id_kate='"+brg.id_kate+"',"
 										+ "h_beli='"+brg.hb+"',"
 										+ "h_jual='"+brg.hj+"',"
 										+ "stok='"+brg.stok+"'"
@@ -87,8 +92,8 @@ public class db_barang extends connection {
 			stmt=conn.createStatement();
 			stmt.execute(sql);
 			stmt.close();
-			System.out.println("__________________________");
-			System.out.println("[Data BERHASIL di EDIT !]\n");
+			System.out.println("\n        BARANG BERHASIL DIEDIT       ");
+			System.out.println("+---------------------------------------+");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -97,30 +102,30 @@ public class db_barang extends connection {
 	public static void hapus () throws SQLException{
 		conn();
 		Scanner sc= new Scanner (System.in);
-		System.out.println("\nKet : Input SKU barang yang ingin dihapus");
-		System.out.println("<< HAPUS DATA BARANG >>");
-		System.out.println("___________________________");
+		System.out.println("\n+==========================================================+");
+		System.out.println("\t\tHAPUS DATA BARANG SUPERMARKET SI");
+		System.out.println("+==========================================================+");
 		System.out.print("SKU Barang\t: ");
-		int hapus = sc.nextInt();
+		String hapus = sc.nextLine();
 
 		String sql = "DELETE FROM barang WHERE sku = '"+hapus+"'";
 		try {
 			stmt=conn.createStatement();
 			stmt.execute(sql);
 			stmt.close();
-			System.out.println("___________________________");
-			System.out.println("[Data BERHASIL di HAPUS !]\n");
+			System.out.println("\n       BARANG BERHASIL DIHAPUS       ");
+			System.out.println("+---------------------------------------+");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public static ArrayList <Barang> cari (String find){
+	public static ArrayList <Barang> cari (int find){
 		conn();
 		ArrayList <Barang> listbarang = new ArrayList<>();
 		
 		try {
-			String sql = "SELECT * FROM barang WHERE sku ='"+find+"'";
+			String sql = "SELECT * FROM barang WHERE id_kate ='"+find+"'";
 			stmt=conn.createStatement();
 			result=stmt.executeQuery(sql);
 				
@@ -128,7 +133,6 @@ public class db_barang extends connection {
 				Barang barang = new Barang (
 					result.getString("sku"),
 					result.getString("nama_brg"),
-					result.getString("depart"),
 					result.getInt("h_beli"),
 					result.getInt("h_jual"),
 					result.getInt("stok")
@@ -142,21 +146,60 @@ public class db_barang extends connection {
 		return listbarang;
 	}
 	
+	static db_barang db_cari = new db_barang ();
+	public static void cari() throws SQLException {
+		conn();
+		Scanner in = new Scanner (System.in);
+		System.out.println("\n+=======================================+");
+		System.out.println("   CARI DATA BUKU PERPUSTAKAAN CORON");
+		System.out.println("+=======================================+");
+		System.out.println("+---Id Kategori Buku---+");
+		System.out.println("| 1. Food              |");
+		System.out.println("| 2. Non Food          |");
+		System.out.println("| 3. House Hold        |");
+		System.out.println("+----------------------+");
+		System.out.print  ("Kode Kategori : ");
+		int find = in.nextInt();
+		System.out.println("============================================================");
+		if (find == 1){
+			System.out.println("\t\tKategori : Food");
+		} else if (find == 2) {
+			System.out.println("\t\tKategori : Non Food");
+		} else if (find == 3) {
+			System.out.println("\t\tKategori : House Hold");
+		} else {
+			System.out.println("\t\tKode Kategori tidak valid!");
+		}
+		System.out.println("============================================================");
+		
+		ArrayList<Barang>listbarang = db_cari.cari(find);
+		
+		for(Barang barang : listbarang){
+			System.out.println("SKU Barang  : "+barang.sku);
+            System.out.println("Nama Barang : "+barang.nama);
+            System.out.println("Harga Beli  : Rp "+barang.hb);
+            System.out.println("Harga Jual  : Rp "+barang.hj);
+            System.out.println("Stok        : "+barang.stok);
+            System.out.println("+----------------------------------------------------------+");
+        }
+		
+	}
+	
 	public static void tbstock() throws SQLException{
 		conn();
 		Scanner sc = new Scanner (System.in);
-		System.out.println("\nKet : Input SKU barang yang ingin diedit");
-		System.out.println("<< RE-STOCK BARANG >>");
-		System.out.println("___________________________");
+		System.out.println("\n+==========================================================+");
+		System.out.println("\t\tTAMBAH STOCK BARANG SUPERMARKET SI");
+		System.out.println("+==========================================================+");
 		System.out.print  ("SKU Barang\t: ");
-		int sku = sc.nextInt();
+		String sku = sc.nextLine();
 		
 		try {
 			stmt = conn.createStatement();
 			String sql = "SELECT * FROM barang WHERE sku = '"+sku+"'";
 			result = stmt.executeQuery(sql);
 			if (result.next()) {
-				String id = result.getString(sku);
+				String id = result.getString("sku");
 				Integer stok_db = result.getInt("stok");
 				System.out.print("Penambahan\t : ");
 				Integer tambah = sc.nextInt();
@@ -165,8 +208,8 @@ public class db_barang extends connection {
 				stmt.execute(sql2);
 				stmt.close();
 			}
-			System.out.println("___________________________");
-			System.out.println("[Barang BERHASIL di TAMBAH !]\n");
+			System.out.println("\n      STOCK BERHASIL DITAMBAHKAN       ");
+			System.out.println("+---------------------------------------+");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
