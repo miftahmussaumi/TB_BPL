@@ -206,7 +206,7 @@ public class User extends connection implements DataUser{
 	  					break;
 	
 	  				case 4:
-	  					db_transaksi.laporan_penjualan();
+	  					menu.menu2();
 	  					break;
 	  					
 	  				case 5: 
