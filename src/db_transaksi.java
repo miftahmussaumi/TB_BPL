@@ -51,6 +51,7 @@ public class db_transaksi extends connection {
 		System.out.print  ("Masukkan Tanggal [dd-mm-yyyy] : ");
 		String tgl = in.nextLine();
 		stmt = conn.createStatement();
+		System.out.println("+-------------------------------------------------+");
 		
 		String sql = "SELECT transaksi.tanggal,transaksi_detail.noresi,transaksi_detail.sku,barang.nama_brg,laba.untung,transaksi.tanggal,transaksi_detail.jumlah " + 
 				"FROM transaksi_detail " + 
@@ -61,24 +62,27 @@ public class db_transaksi extends connection {
 				"JOIN barang " + 
 				"ON barang.sku=transaksi_detail.sku " + 
 				"WHERE tanggal ='"+tgl+"'";
-//		String sql = "SELECT * FROM laba";
+		
 		result = stmt.executeQuery(sql);
 		
+		int total=0;
 		while (result.next()) {
 			String noresi = result.getString("noresi");
 			String sku = result.getString("sku");
 			String nama_brg = result.getString("nama_brg");
 			Integer jumlah = result.getInt("jumlah");
 			Integer untung = result.getInt("untung");
-			
-			System.out.println("+----------------------------------------------------------+");
+			total+=untung;
 			System.out.println("No.Resi        : "+noresi);
 			System.out.println("SKU Barang     : "+sku);
 			System.out.println("Nama Barang    : "+nama_brg);
 			System.out.println("Jumlah Terjual : "+jumlah);
 			System.out.println("Untung         : "+untung);
-			System.out.println("+----------------------------------------------------------+");
+			System.out.println("+-------------------------------------------------+");
 		}
+		System.out.println("	TOTAL LABA TANGGAL "+tgl+" : Rp "+total);
+		System.out.println("+-------------------------------------------------+");
+		System.out.println();
 	}
 	
 	public static void penjualan() throws SQLException {
