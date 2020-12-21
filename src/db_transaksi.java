@@ -93,11 +93,11 @@ public class db_transaksi extends connection {
 		//tanggal otomatis terbuat
 		Date tgl = new Date();
 		SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-		System.out.println("Tanggal Transaksi\t: "+format.format(tgl));
+		System.out.println("Tanggal Transaksi       : "+format.format(tgl));
 		String tanggal = String.valueOf(format.format(tgl));
 		
-		System.out.println("------Transaksi Penjualan------");
-		System.out.print("SKU Barang\t\t: ");
+		System.out.println("---Transaksi Penjualan---");
+		System.out.print("SKU Barang\t : ");
 		String sku_brg = sc.nextLine();
 		
 		String sql = "SELECT * FROM barang WHERE sku = '"+sku_brg+"'";
@@ -105,34 +105,32 @@ public class db_transaksi extends connection {
 		result=stmt.executeQuery(sql);
 		
 		int sisabarang = 0;
-		int total=0;
-		int untung=0;
+		int total=0,laba=0;
 		while (result.next()) {
 			String sku = result.getString("sku");
 			String nama_brg = result.getString("nama_brg");
 			Integer stok_brg = result.getInt("stok");
 			Integer harga_jual = result.getInt("h_jual");
 			Integer harga_beli = result.getInt("h_beli");
-			System.out.println("Nama Barang\t\t: "+nama_brg);
+			Integer untung = Integer.valueOf(harga_jual)-Integer.valueOf(harga_beli);
+			System.out.println("Nama Barang\t : "+nama_brg);
 			
 			if (stok_brg>0) {
-				System.out.println("Harga Barang\t\t: Rp "+harga_jual);
+				System.out.println("Harga Barang     : Rp "+harga_jual);
 				penj.jumlah();
-				
 				sisabarang = Integer.valueOf(stok_brg)-Integer.valueOf(penj.jml);
 				total = Integer.valueOf(harga_jual)*Integer.valueOf(penj.jml);
-				untung =Integer.valueOf(harga_jual)-Integer.valueOf(harga_beli);
-				
-				System.out.println("Total Belanja\t\t: Rp "+total);
+				laba =Integer.valueOf(untung)*Integer.valueOf(penj.jml);
+				System.out.println("Total Belanja    : Rp "+total);
 				String sql2="INSERT INTO transaksi_detail (sku,noresi,jumlah,harga) VALUES "
 						+ "('"+sku_brg+"','"+penj.noresi+"','"+penj.jml+"','"+total+"')";
 				String sql3="INSERT INTO transaksi VALUES ('"+penj.noresi+"','"+tanggal+"','"+User.username+"')";
-				String sql4="INSERT INTO laba VALUES ('"+penj.noresi+"','"+untung+"')";
+				String query="INSERT INTO laba (noresi,untung)VALUES ('"+penj.noresi+"','"+laba+"')";
 				try {
 					stmt= conn.createStatement();
 					stmt.execute(sql2);
 					stmt.execute(sql3);
-					stmt.execute(sql4);
+					stmt.execute(query);
 					System.out.println("\n        TRANSAKSI BERHASIL      ");
 					System.out.println("+---------------------------------------+");
 				} catch (Exception e) {
@@ -140,16 +138,17 @@ public class db_transaksi extends connection {
 				}
 				
 			} else {
-				System.out.println("__________________________________________________________________");
+				System.out.println("______________________");
 				System.out.println("!!-----------------Stock Barang telah habis---------------------!!");
 				System.out.println("Silahkan melakukan re-stock barang ["+nama_brg+"] dahulu");
 				System.out.println("------------------------------------------------------------------");
 				menu.menu1();
 			}
+			
 		}
 		String sql4="UPDATE barang SET stok='"+sisabarang+"' WHERE sku = '"+sku_brg+"'";
-		stmt= conn.createStatement();
 		stmt.execute(sql4);
+		stmt.close();
 	}
 	
 }
