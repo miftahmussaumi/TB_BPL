@@ -165,67 +165,67 @@ public class User extends connection implements DataUser{
   	public void user_menu() throws SQLException{
   		boolean tampil=true;
 		while (tampil==true) {
-  		Scanner scan = new Scanner(System.in);
-  		Barang brg = new Barang();
-  		System.out.println("+============================================+");
-  		System.out.println("+''''''''''''''''''''''''''''''''''''''''''''+");
-  		System.out.println("|             SELAMAT DATANG DI              |");
-  		System.out.println("|               SUPERMARKET SI               |");
-  		System.out.println("+____________________________________________+");
-  		System.out.println("+============================================+");
-  		System.out.println();
-  		System.out.println("+============================================+");
-  		System.out.println("|            '' DAFTAR MENU ''               |");
-  		System.out.println("+____________________________________________+");
-  		System.out.println("|             [1] Pengelolaan User           |");
-  		System.out.println("+____________________________________________+");
-  		System.out.println("|             [2] Data Master                |");
-  		System.out.println("+____________________________________________+");
-  		System.out.println("|             [3] Transaksi                  |");
-  		System.out.println("+____________________________________________+");
-  		System.out.println("|             [4] Laporan Penjualan          |");
-  		System.out.println("+____________________________________________+");
-  		System.out.println("|             [5] Logout                     |");
-  		System.out.println("|____________________________________________|");
-  		System.out.println("+============================================+");
-  		System.out.print("Pilih : ");
-
-  		try {
-  			Integer pilihan = scan.nextInt();
-
-  			switch (pilihan) {
-  				case 1:
-  					user_setting();
-  					break;
-  				
-  				case 2:
-  					System.out.print("\n");
-  					MainBarang();
-  					break;	
-
-  				case 3:
-  					System.out.print("\n");
-  					db_transaksi.penjualan();
+	  		Scanner scan = new Scanner(System.in);
+	  		Barang brg = new Barang();
+	  		System.out.println("+============================================+");
+	  		System.out.println("+''''''''''''''''''''''''''''''''''''''''''''+");
+	  		System.out.println("|             SELAMAT DATANG DI              |");
+	  		System.out.println("|               SUPERMARKET SI               |");
+	  		System.out.println("+____________________________________________+");
+	  		System.out.println("+============================================+");
+	  		System.out.println();
+	  		System.out.println("+============================================+");
+	  		System.out.println("|            '' DAFTAR MENU ''               |");
+	  		System.out.println("+____________________________________________+");
+	  		System.out.println("|             [1] Pengelolaan User           |");
+	  		System.out.println("+____________________________________________+");
+	  		System.out.println("|             [2] Data Master                |");
+	  		System.out.println("+____________________________________________+");
+	  		System.out.println("|             [3] Transaksi                  |");
+	  		System.out.println("+____________________________________________+");
+	  		System.out.println("|             [4] Laporan Penjualan          |");
+	  		System.out.println("+____________________________________________+");
+	  		System.out.println("|             [5] Logout                     |");
+	  		System.out.println("|____________________________________________|");
+	  		System.out.println("+============================================+");
+	  		System.out.print("Pilih : ");
+	  		Integer pilihan = scan.nextInt();
+	  			switch (pilihan) {
+	  				case 1:
+	  					user_setting();
+	  					break;
+	  				
+	  				case 2:
+	  					System.out.print("\n");
+	  					MainBarang();
+	  					break;	
 	
-  					break;
-
-  				case 4:
-  					db_transaksi.laporan_penjualan();
-  					break;
-  					
-  				case 5: 
-  					logout();
-
-  					break;
-  					
-  				default:
-  					System.out.println("Pilihan Tidak Tersedia");
-  					break;
-  			}
-  		} catch (InputMismatchException e) {
-  			System.out.println("Pilihan Tidak Tersedia");
-  		}
-  		scan.close();
+	  				case 3:
+	  					System.out.print("\n");
+	  					db_transaksi.penjualan();
+	  					break;
+	
+	  				case 4:
+	  					db_transaksi.laporan_penjualan();
+	  					break;
+	  					
+	  				case 5: 
+	  					logout();
+	
+	  					break;
+	  					
+	  				default:
+	  					System.out.println("Pilihan Tidak Tersedia");
+	  					break;
+	  			}
+	  			System.out.print("Apakah anda ingin melanjutkan? [y/n]  ");
+	  			Scanner sc = new Scanner (System.in);
+				String next = sc.nextLine();
+				String lanjut = "y";
+				tampil = next.equalsIgnoreCase(lanjut);
+				if (tampil==false) {
+					user_menu();
+				}
 
 		}
   	}
