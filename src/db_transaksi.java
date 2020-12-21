@@ -74,12 +74,12 @@ public class db_transaksi extends connection {
 				String sql2="INSERT INTO transaksi_detail (sku,noresi,jumlah,harga) VALUES "
 						+ "('"+sku_brg+"','"+penj.noresi+"','"+penj.jml+"','"+total+"')";
 				String sql3="INSERT INTO transaksi VALUES ('"+penj.noresi+"','"+tanggal+"','"+User.username+"')";
-				String sql14="UPDATE barang SET stok'"+stok_brg+"'";
+				String sql4="UPDATE barang SET stok='"+stok_brg+"'";
 				try {
 					stmt= conn.createStatement();
 					stmt.execute(sql2);
 					stmt.execute(sql3);
-					stmt.execute(sql14);
+					stmt.execute(sql4);
 					stmt.close();
 					System.out.println("\n        TRANSAKSI BERHASIL      ");
 					System.out.println("+---------------------------------------+");

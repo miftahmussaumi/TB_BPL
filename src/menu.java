@@ -116,7 +116,7 @@ public class menu {
 				db_transaksi.penjualan();
 				break;
 			case 2:
-				db_transaksi.penjualan();
+				db_transaksi.tampil1();
 				break;
 			case 3:
 				utama();

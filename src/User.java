@@ -14,11 +14,11 @@ import java.util.ArrayList;
 
 public class User extends connection implements DataUser{
 	
-//	static Connection conn;
-//	static Statement stmt;
-//	static ResultSet result;
+	static Connection conn;
+	static Statement stmt;
+	static ResultSet result;
 	
-	MulaiProgram Mulai = new MulaiProgram();
+	MulaiProgram mulai = new MulaiProgram();
 	Scanner input = new Scanner(System.in);
 	Date date = new Date();
 
@@ -102,11 +102,9 @@ public class User extends connection implements DataUser{
  	public void Register() throws Exception{
 
  		Class.forName("com.mysql.cj.jdbc.Driver");
-        conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+         conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
 
-		System.out.println("+---------------+");
-	    System.out.println("|    SIGN UP    |");
-	    System.out.println("+---------------+");
+ 		System.out.println("\n\n--SIGN UP--");
 
  		System.out.print("Masukkan Username : ");
  		this.username = input.next();
@@ -207,12 +205,11 @@ public class User extends connection implements DataUser{
 
   				case 3:
   					System.out.print("\n");
-  					db_transaksi.penjualan(); 
+  					db_transaksi.penjualan();
 	
   					break;
 
   				case 4:
-  					db_transaksi.penjualan();
   					break;
   					
   				case 5: 
@@ -302,48 +299,42 @@ public class User extends connection implements DataUser{
 
   		} 
   		while(cek);
-  		try {
-  			Mulai.mulai();
+  		Scanner scan = new Scanner(System.in);
+		System.out.println("========================================");
+		System.out.println("''' SELAMAT DATANG DI SUPERMARKET SI '''");
+		System.out.println("========================================");
+		System.out.println("|     "+date+"     |");
+		System.out.println("+--------------------------------------+");
+		System.out.println("| Silahkan pilih menu dibawah berikut  |");
+		System.out.println("+--------------------------------------+");
+		System.out.println("| [1] Login                            |");
+		System.out.println("| [2] Register                         |");
+		System.out.println("+--------------------------------------+");
+		System.out.print("Pilih : ");
+  		
+  		Integer pilihan = scan.nextInt();
+  		
+  		switch (pilihan) {
+			case 1:
+			try {
+				login();
+			} catch (Exception e) {
+			
+				e.printStackTrace();
+			}
+				break;
+		
+			case 2:
+			try {
+				Register();
+			} catch (Exception e) {
+
+				e.printStackTrace();
+			}
+				break;
   		}
-  		catch(Exception e){
-  			e.printStackTrace();	
-  		}
-//  		Scanner scan = new Scanner(System.in);
-//		System.out.println("========================================");
-//		System.out.println("''' SELAMAT DATANG DI SUPERMARKET SI '''");
-//		System.out.println("========================================");
-//		System.out.println("|     "+date+"     |");
-//		System.out.println("+--------------------------------------+");
-//		System.out.println("| Silahkan pilih menu dibawah berikut  |");
-//		System.out.println("+--------------------------------------+");
-//		System.out.println("| [1] Login                            |");
-//		System.out.println("| [2] Register                         |");
-//		System.out.println("+--------------------------------------+");
-//		System.out.print("Pilih : ");
-//  		
-//  		Integer pilihan = scan.nextInt();
-//  		
-//  		switch (pilihan) {
-//			case 1:
-//			try {
-//				login();
-//			} catch (Exception e) {
-//			
-//				e.printStackTrace();
-//			}
-//				break;
-//		
-//			case 2:
-//			try {
-//				Register();
-//			} catch (Exception e) {
-//
-//				e.printStackTrace();
-//			}
-//				break;
-//  		}
-//  		
-//  		scan.close();
+  		
+  		scan.close();
 
   	}
 
@@ -377,7 +368,8 @@ public class User extends connection implements DataUser{
  					System.out.print("Konfirmasi Password : ");
  					this.password = input.next();
 
- 					if (password.equals(pass)) {		
+ 					if (password.equals(pass)) {
+ 					
  						this.query = "UPDATE user SET username='"+username+"' WHERE username='"+uname+"' ";
  		
  						try {
@@ -424,10 +416,10 @@ public class User extends connection implements DataUser{
  								stmt = conn.createStatement();
  								
  								if (stmt.executeUpdate(query) == 1) {
- 									System.out.println("Email Berhasil Diubah");
+ 									System.out.println("Email Berhasil Di Ubah");
  									user_menu();
  								} else{
- 									System.out.println("Email Gagal Diubah");
+ 									System.out.println("Email Gagal Di Ubah");
  									EditUser();
  								}
  								
@@ -450,7 +442,7 @@ public class User extends connection implements DataUser{
  				// Ubah password
  				case 3:
  			  		System.out.println("+====================================+");
- 			  		System.out.println("|        '' Ubah Password ''         |");
+ 			  		System.out.println("|        '' Ubah Password '          |");
  			  		System.out.println("|____________________________________|");
  					System.out.print("\nMasukkan Password Lama : ");
  					String passwordLama = input.next();
@@ -466,10 +458,10 @@ public class User extends connection implements DataUser{
  							stmt = conn.createStatement();
  							
  							if (stmt.executeUpdate(query) == 1) {
- 								System.out.println("Password Berhasil Diubah");
+ 								System.out.println("Password Berhasil Di Ubah");
  								user_menu();
  							} else {
- 								System.out.println("Password Gagal Diubah");
+ 								System.out.println("Password Gagal Di Ubah");
  								EditUser();
  							}
  							
@@ -490,7 +482,6 @@ public class User extends connection implements DataUser{
  			
  				default:
  					System.out.println("Pilihan Tidak Tersedia");
- 					EditUser();
  					break;
  			}
 
@@ -510,8 +501,8 @@ public class User extends connection implements DataUser{
 	  	System.out.println("|____________________________________|");
 
  		System.out.println("Apakah Anda Yakin Ingin Menghapus Akun Anda ?");
- 		System.out.print("Jawab y/t : ");
-
+ 		System.out.println("Jawab Y/T");
+ 		System.out.println("Jawabanmu : ");
  		String lanjut = input.next();
 
  		if (lanjut.equals("y")) {
@@ -521,14 +512,14 @@ public class User extends connection implements DataUser{
  				stmt.execute(query);
  				System.out.println("Data Berhasil Di Hapus");
  			} catch (SQLException e) {
- 				System.out.println("Data Gagal Di Hapus");				
+ 				System.out.println("Data Gagal Di Hapus");
  			}
- 			
  		} 
  		
  		try {
-			Mulai.mulai();
+			Register();
 		} catch (Exception e) {
+
 			e.printStackTrace();
 		}
 
@@ -541,7 +532,7 @@ public class User extends connection implements DataUser{
 	  		System.out.println("|     '' Pencarian Data User ''      |");
 	  		System.out.println("|____________________________________|");
 
-	  		System.out.print("Masukkan Username : ");
+	  		System.out.print("Masukkan Username Pengguna : ");
 	  		String cari = input.next();
 
 	  		this.query = "SELECT*FROM user WHERE username LIKE '%"+cari+"%'";
@@ -558,7 +549,7 @@ public class User extends connection implements DataUser{
 	  				System.out.println("+====================================+");
  			}
  		} catch (SQLException e) {
- 			System.out.println("Gagal Mengakses Database");
+ 			System.out.println("Tidak Dapat Mengakses Database");
  		}
  		user_setting();
  	}

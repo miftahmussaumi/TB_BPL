@@ -7,9 +7,11 @@ public class MulaiProgram {
 	static Scanner scn = new Scanner(System.in);
 	static User user = new User();
 	static Date date = new Date();
-	
-	public static void mulai() throws Exception{
-//		int pilihan=0; 		
+	public static void main(String[] args) throws Exception {
+		// TODO Auto-generated method stub
+		boolean jalan=true;
+		while (jalan==true) {
+		int pilihan; 		
 		switch (Login.landingPage()) {
 		case 1:
 			user.login();
@@ -20,17 +22,19 @@ public class MulaiProgram {
 			break;
 			
 		default:
+			Scanner scn2 = new Scanner(System.in);
   			System.out.println("Pilihan Tidak Tersedia");
-  			mulai();	
-  				break;
-		
+  			System.out.print("Apakah anda ingin melanjutkan? [y/n]  ");
+			String next = scn2.nextLine();
+			String lanjut = "y";
+			System.out.println();
+			jalan = next.equalsIgnoreCase(lanjut);
+			if (jalan==false) {
+				user.user_menu();
 			}
+  				break;
 		}
-
-	public static void main(String[] args) throws Exception {
-		// TODO Auto-generated method stub
-		mulai();
-
+		}
 	}
 
 }

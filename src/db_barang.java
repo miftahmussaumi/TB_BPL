@@ -41,29 +41,42 @@ public class db_barang extends connection {
 	public static void tambah() throws SQLException {
 		conn();
 		Barang brg = new Barang();
+		boolean harga=true;
 		System.out.println("\n+==========================================================+");
-		System.out.println("\t\tDTAMBAH ATA BARANG SUPERMARKET SI");
+		System.out.println("\t\tTAMBAH DATA BARANG SUPERMARKET SI");
 		System.out.println("+==========================================================+");
 		brg.sku();
 		brg.nama();
 		brg.kode_kate();
 		brg.kategori();
-		brg.hb();
-		brg.hj();
-		brg.stok();
+		do {
+			brg.hb();
+			brg.hj();
+			if (brg.hb<brg.hj) {
+				brg.stok();
+				harga=false;
+				String sql = "INSERT INTO barang VALUES " + 
+				"('"+brg.sku+"','"+brg.nama+"','"+brg.id_kate+"','"+brg.hb+"','"+brg.hj+"','"+brg.stok+"')";
+				
+				try {
+					stmt= conn.createStatement();
+					stmt.execute(sql);
+					stmt.close();
+					System.out.println("\n       BARANG BERHASIL DITAMBAHKAN       ");
+					System.out.println("+---------------------------------------+");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			} else {
+				System.out.println("\n!!------------------------------------!!");
+				System.out.println("  Harga Jual -KECIL- dari Harga Barang");
+				System.out.println("  Anda akan mengalami kerugian");
+				System.out.println("  Inputkan data dengan benar !");
+				System.out.println("!!---------------------------------!!");
+			}
+		} while (harga=true);
 		
-		String sql = "INSERT INTO barang VALUES " + 
-		"('"+brg.sku+"','"+brg.nama+"','"+brg.id_kate+"','"+brg.hb+"','"+brg.hj+"','"+brg.stok+"')";
 		
-		try {
-			stmt= conn.createStatement();
-			stmt.execute(sql);
-			stmt.close();
-			System.out.println("\n       BARANG BERHASIL DITAMBAHKAN       ");
-			System.out.println("+---------------------------------------+");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 	
 	public static void edit () throws SQLException {
