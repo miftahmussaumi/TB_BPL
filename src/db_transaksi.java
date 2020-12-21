@@ -7,29 +7,38 @@ import java.util.Date;
 
 public class db_transaksi extends connection {
 	
-	public static void tampil1() throws SQLException {
+	public static void laporan_penjualan () throws SQLException {
 		conn();
+		boolean lap = true;
+		Scanner in = new Scanner (System.in);
+		System.out.println("\n+================================================+");
+		System.out.println("   LAPORAN PENJUALAN SUPERMARKET SI");
+		System.out.println("+=================================================+");
+		System.out.print  ("Masukkan Tanggal [dd-mm-yyyy] : ");
+		String tgl = in.nextLine();
 		stmt = conn.createStatement();
-		String sql = " SELECT * FROM transaksi_detail ";
+		String sql = "SELECT transaksi.tanggal,transaksi_detail.noresi,"
+				+ "transaksi_detail.sku,barang.nama_brg,"
+				+ "transaksi_detail.jumlah FROM barang "
+				+ "INNER JOIN transaksi_detail "
+				+ "ON barang.sku=transaksi_detail.sku "
+				+ "JOIN transaksi "
+				+ "ON transaksi_detail.noresi=transaksi.noresi WHERE tanggal ='"+tgl+"'";
 		result = stmt.executeQuery(sql);
 		
-		System.out.println("\n\t\t\tDATA TRANSAKSI DETAIL SUPERMARKET SI");
-		System.out.println("+====================================================================+");
-		String format1 = "|%-3s| %-15s| %-15s| %-13s |%-13s |\n";
-		System.out.printf(format1, "ID", " SKU", "No Resi", "Jumlah", " Harga");
-		System.out.println("+====================================================================+");
 		while (result.next()) {
-			
-			Integer ID = result.getInt("id");
-			String SKU = result.getString("sku");
 			String noresi = result.getString("noresi");
+			String sku = result.getString("sku");
+			String nama_brg = result.getString("nama_brg");
 			Integer jumlah = result.getInt("jumlah");
-			Integer harga = result.getInt("harga");
-				
-			String format = "|%-3s| %-15s| %-15s| Rp%-11s | Rp%-11s| \n";
-			System.out.printf(format, ID, SKU, noresi, jumlah, harga );
-			System.out.println("+--------------------------------------------------------------------+");
-		}
+			
+			System.out.println("+----------------------------------------------------------+");
+			System.out.println("No.Resi        : "+noresi);
+			System.out.println("SKU Barang     : "+sku);
+			System.out.println("Nama Barang    : "+nama_brg);
+			System.out.println("Jumlah Terjual : "+jumlah);
+			System.out.println("+----------------------------------------------------------+");
+		} 
 		System.out.println();
 	}
 	
